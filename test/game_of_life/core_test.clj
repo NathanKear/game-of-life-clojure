@@ -70,17 +70,38 @@
 
 (deftest increment-cell-map-tests
   (let [
-    before [
+    state0 [
     [0 0 0 0 0]
     [0 0 1 0 0]
     [1 0 1 0 0]
     [0 1 1 0 0]
     [0 0 0 0 0]]
-    after [
+    state1 [
     [0 0 0 0 0]
     [0 1 0 0 0]
     [0 0 1 1 0]
     [0 1 1 0 0]
-    [0 0 0 0 0]]]
+    [0 0 0 0 0]]
+    state2 [
+    [0 0 0 0 0]
+    [0 0 1 0 0]
+    [0 0 0 1 0]
+    [0 1 1 1 0]
+    [0 0 0 0 0]]
+    state3 [
+    [0 0 0 0 0]
+    [0 0 0 0 0]
+    [0 1 0 1 0]
+    [0 0 1 1 0]
+    [0 0 1 0 0]]
+    state4 [
+    [0 0 0 0 0]
+    [0 0 0 0 0]
+    [0 0 0 1 0]
+    [0 1 0 1 0]
+    [0 0 1 1 0]]]
     (testing "increment-map-state" 
-        (is (= after (increment-cell-map before))))))
+        (is (= state1 (increment-cell-map state0)))
+        (is (= state2 (increment-cell-map state1)))
+        (is (= state3 (increment-cell-map state2)))
+        (is (= state4 (increment-cell-map state3))))))
