@@ -20,12 +20,32 @@
     (= 1 
       (get-in cell-map [row column]))))
 
-(defn count-cell-neighbours [cell-map row column]
+(defn count-cell-neighbours [cell-map [row column]]
   (count 
     (filter true? 
       (map 
         (is-alive? cell-map) 
           (map (add-offset [row column]) neighbour-offsets)))))
+
+(defn in? [sequence item]
+  (if (empty? sequence)
+    false
+    (reduce #(or %1 %2) (map #(= %1 item) sequence))))
+
+(defn increment-cell-state [current-state living-neighbours]
+    (if (= 1 current-state)
+      (if (in? [2 3] living-neighbours) 1 0)
+      (if (in? [3] living-neighbours) 1 0)))
+
+(defn increment-cell-map [cell-map]
+  (map-indexed 
+    (fn [row-index cell-row] 
+      (map-indexed 
+        (fn [column-index cell-state]
+          (let [cell-neighbours (count-cell-neighbours cell-map [row-index column-index])] 
+            (increment-cell-state cell-state cell-neighbours))) 
+      cell-row)) 
+  cell-map))
 
 (defn -main
   "I don't do a whole lot ... yet."
